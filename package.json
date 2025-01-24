@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Hanz-Ian/demo-app-chat#readme",
   "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "express": "^4.21.2"
   }
 }
