@@ -6,12 +6,15 @@ const { Socket } = require('socket.io')
 var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
+var mongoose = require('mongoose')
 
 
 // Serving a static file for Express (index.html)
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+
+dbUrl = 'mongodb+srv://user:user@demoapp.98s4j.mongodb.net/?retryWrites=true&w=majority&appName=DemoApp'
 
 
 var messages = [
@@ -27,12 +30,15 @@ app.get('/messages', (req, res) => {
 // Handling POST Requests
 app.post('/messages', (req, res) => {
     messages.push(req.body)
+    io.emit('message', req.body)
     res.sendStatus(200)
 })
 
 io.on('connection', (socket) => {
     console.log('a user connected')
 })
+
+mongoose.connect(dbUrl)
 
 
 // Start the Express server and listen for port 3000
