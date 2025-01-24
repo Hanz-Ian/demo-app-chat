@@ -1,8 +1,11 @@
 // Assigning Express framework to a var
 var express = require('express')
 var bodyParser = require('body-parser')
+const { Socket } = require('socket.io')
 // Using Express on a var
 var app = express()
+var http = require('http').Server(app)
+var io = require('socket.io')(http)
 
 
 // Serving a static file for Express (index.html)
@@ -27,8 +30,12 @@ app.post('/messages', (req, res) => {
     res.sendStatus(200)
 })
 
+io.on('connection', (socket) => {
+    console.log('a user connected')
+})
+
 
 // Start the Express server and listen for port 3000
-var server = app.listen(3000, () => {
+var server = http.listen(3000, () => {
     console.log('server is listening on port', server.address().port)
 })
